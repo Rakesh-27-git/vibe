@@ -1,22 +1,28 @@
 "use client";
 
+import { useState } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTRPC } from "@/trpc/client";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
 
 const Page = () => {
   const [value, setValue] = useState("");
+  const router = useRouter();
 
   const trpc = useTRPC();
-  const { data } = useQuery(trpc.messages.getMany.queryOptions());
 
-  const createMessage = useMutation(
-    trpc.messages.create.mutationOptions({
-      onSuccess: () => {
-        toast.success("Message created successfully!");
+  const createProject = useMutation(
+    trpc.projects.create.mutationOptions({
+      onError: (error) => {
+        toast.error(`Error creating project: ${error.message}`);
+      },
+      onSuccess: (data) => {
+        router.push(`/projects/${data.id}`);
+        toast.success("Project created successfully!");
       },
     })
   );
@@ -24,13 +30,16 @@ const Page = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <Button
-        disabled={createMessage.isPending}
-        onClick={() => createMessage.mutate({ value: value })}
+        disabled={createProject.isPending}
+        onClick={() => createProject.mutate({ value: value })}
       >
         Start the Ingest
       </Button>
-      <Input value={value} onChange={(e) => setValue(e.target.value)} />
-      {JSON.stringify(data,null, 2)}
+      <Input
+        className="mt-4 max-w-xl"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
     </div>
   );
 };
