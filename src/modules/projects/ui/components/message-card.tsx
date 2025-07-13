@@ -77,7 +77,7 @@ const AssistantMessage = ({
     <div
       className={cn(
         "flex flex-col group px-2 pb-4",
-        type === "ERROR" && "bg-red-700 dark:text-red-500"
+        type === "ERROR" && "text-red-700 dark:text-red-500"
       )}
     >
       <div className="flex items-center gap-2 pl-2 mb-2">
@@ -93,7 +93,7 @@ const AssistantMessage = ({
           {format(createdAt, "HH:mm 'on' MMM dd, yyyy")}
         </span>
       </div>
-      <div className="pl-8.5 flex flex-col gap-y-4">
+      <div className="pl-8 flex flex-col gap-y-4">
         <span>{content}</span>
         {fragment && type === "RESULT" && (
           <FragmentCard
