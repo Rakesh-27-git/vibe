@@ -44,7 +44,7 @@ const FragmentWeb = ({ data }: Props) => {
           </Button>
         </Hint>
 
-        <Hint text="Open in new tab" slide="bottom" aligh="start">
+        <Hint text="Open in new tab" slide="bottom" align="start">
           <Button
             size="sm"
             variant="outline"
