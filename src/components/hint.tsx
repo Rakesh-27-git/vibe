@@ -13,7 +13,7 @@ interface Props {
   align?: "start" | "center" | "end";
 }
 
-const hint = ({ children, text, slide, align }: Props) => {
+const Hint = ({ children, text, slide, align }: Props) => {
   return (
     <TooltipProvider>
       <Tooltip>
@@ -26,4 +26,4 @@ const hint = ({ children, text, slide, align }: Props) => {
   );
 };
 
-export default hint;
+export default Hint;
