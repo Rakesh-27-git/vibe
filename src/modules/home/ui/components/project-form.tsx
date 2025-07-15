@@ -6,17 +6,18 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import TextareaAutosize from "react-textarea-autosize";
 import { ArrowUpIcon, Loader2Icon } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
+import { useClerk } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import { Form, FormField } from "@/components/ui/form";
-import { useRouter } from "next/navigation";
 import { PROJECT_TEMPLATES } from "../../constants";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormField } from "@/components/ui/form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const formSchema = z.object({
   value: z
@@ -26,8 +27,9 @@ const formSchema = z.object({
 });
 
 const ProjectForm = () => {
-  const router = useRouter();
   const trpc = useTRPC();
+  const clerk = useClerk();
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const createProject = useMutation(
@@ -37,8 +39,10 @@ const ProjectForm = () => {
         router.push(`/projects/${data.id}`);
       },
       onError: (error) => {
-        // TODO: handle error page
         toast.error(error.message || "Failed to create message");
+        if (error.data?.code === "UNAUTHORIZED") {
+          clerk.openSignIn();
+        }
       },
     })
   );

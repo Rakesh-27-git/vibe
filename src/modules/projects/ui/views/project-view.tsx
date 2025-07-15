@@ -9,8 +9,10 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+
 import { Fragment } from "@/generated/prisma";
 import { Button } from "@/components/ui/button";
+import UserControl from "@/components/user-control";
 import FileExplorer from "@/components/file-explorer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -75,6 +77,7 @@ const ProjectView = ({ projectId }: props) => {
                     <CrownIcon /> Upgrade
                   </Link>
                 </Button>
+                <UserControl />
               </div>
             </div>
             <TabsContent value="preview">
