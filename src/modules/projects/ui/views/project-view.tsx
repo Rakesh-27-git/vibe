@@ -10,6 +10,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 
+import { useAuth } from "@clerk/nextjs";
 import { Fragment } from "@/generated/prisma";
 import { Button } from "@/components/ui/button";
 import UserControl from "@/components/user-control";
@@ -25,6 +26,8 @@ interface props {
 }
 
 const ProjectView = ({ projectId }: props) => {
+  const { has } = useAuth();
+  const hasProAccess = has?.({ plan: "pro" });
   const [activeFragment, setActiveFragment] = React.useState<Fragment | null>(
     null
   );
@@ -72,11 +75,13 @@ const ProjectView = ({ projectId }: props) => {
                 </TabsTrigger>
               </TabsList>
               <div className="ml-auto flex items-center gap-x-2">
-                <Button asChild size="sm" variant="tertiary">
-                  <Link href="/pricing">
-                    <CrownIcon /> Upgrade
-                  </Link>
-                </Button>
+                {!hasProAccess && (
+                  <Button asChild size="sm" variant="tertiary">
+                    <Link href="/pricing">
+                      <CrownIcon /> Upgrade
+                    </Link>
+                  </Button>
+                )}
                 <UserControl />
               </div>
             </div>
