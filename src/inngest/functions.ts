@@ -20,6 +20,7 @@ import {
   type Message,
   type Tool,
 } from "@inngest/agent-kit";
+import { openai } from "inngest";
 
 interface AgentState {
   summary: string;
@@ -76,7 +77,7 @@ export const codeAgentFunction = inngest.createFunction(
       name: "code-agent",
       description: "An expert coding agent",
       system: PROMPT,
-      model: gemini({ model: "gemini-2.0-flash" }),
+      model: openai({ model: "gpt-4o-mini" }),
       tools: [
         createTool({
           name: "terminal",
