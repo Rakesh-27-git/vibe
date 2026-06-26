@@ -55,7 +55,11 @@
     "inngest": "^3.39.2",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.525.0",
+<<<<<<< HEAD
     "next": "^16.2.4",
+=======
+    "next": "15.3.8",
+>>>>>>> 39e4c297048faa503f7ac9a158d1618e9c08053b
     "next-themes": "^0.4.6",
     "prismjs": "^1.30.0",
     "random-word-slugs": "^0.1.7",
