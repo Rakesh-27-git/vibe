@@ -16,12 +16,11 @@ import {
   createNetwork,
   createState,
   createTool,
-  openai,
-  // gemini,
+  gemini,
   type Message,
   type Tool,
 } from "@inngest/agent-kit";
-// import { openai } from "inngest";
+import { openai } from "inngest";
 
 interface AgentState {
   summary: string;
@@ -61,7 +60,7 @@ export const codeAgentFunction = inngest.createFunction(
           });
         }
         return formattedMessages.reverse();
-      },
+      }
     );
 
     const state = createState<AgentState>(
@@ -71,7 +70,7 @@ export const codeAgentFunction = inngest.createFunction(
       },
       {
         messages: previousMessages,
-      },
+      }
     );
 
     const codeAgent = createAgent<AgentState>({
@@ -102,7 +101,7 @@ export const codeAgentFunction = inngest.createFunction(
                 return result.stdout;
               } catch (e) {
                 console.log(
-                  `Command failed: ${e} \nstdout: ${buffers.stdout} \nstderr: ${buffers.stderr}`,
+                  `Command failed: ${e} \nstdout: ${buffers.stdout} \nstderr: ${buffers.stderr}`
                 );
                 return `Command failed: ${e} \nstdout: ${buffers.stdout} \nstderr: ${buffers.stderr}`;
               }
@@ -117,12 +116,12 @@ export const codeAgentFunction = inngest.createFunction(
               z.object({
                 path: z.string(),
                 content: z.string(),
-              }),
+              })
             ),
           }),
           handler: async (
             { files },
-            { step, network }: Tool.Options<AgentState>,
+            { step, network }: Tool.Options<AgentState>
           ) => {
             const newFiles = await step?.run(
               "createOrUpdateFiles",
@@ -139,7 +138,7 @@ export const codeAgentFunction = inngest.createFunction(
                   console.error("Error creating or updating files:", e);
                   return "Error: " + e;
                 }
-              },
+              }
             );
             if (typeof newFiles === "object") {
               network.state.data.files = newFiles;
@@ -205,22 +204,22 @@ export const codeAgentFunction = inngest.createFunction(
       name: "fragment-title-generator",
       description: "Generates a title for the code fragment",
       system: FRAGMENT_TITLE_PROMPT,
-      model: openai({ model: "gpt-4o-mini" }),
+      model: gemini({ model: "gemini-2.0-flash" }),
     });
 
     const responseGenerator = createAgent({
       name: "response-generator",
       description: "Generates a response based on the code fragment",
       system: RESPONSE_PROMPT,
-      model: openai({ model: "gpt-4o-mini" }),
+      model: gemini({ model: "gemini-2.0-flash" }),
     });
 
     const { output: fragmentTitleOutput } = await fragmentTitleGenerator.run(
-      result.state.data.summary,
+      result.state.data.summary
     );
 
     const { output: responseOutput } = await responseGenerator.run(
-      result.state.data.summary,
+      result.state.data.summary
     );
 
     const isError =
@@ -268,5 +267,5 @@ export const codeAgentFunction = inngest.createFunction(
       files: result.state.data.files,
       summary: result.state.data.summary,
     };
-  },
+  }
 );
