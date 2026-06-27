@@ -16,11 +16,12 @@ import {
   createNetwork,
   createState,
   createTool,
-  gemini,
+  // gemini,
+  openai,
   type Message,
   type Tool,
 } from "@inngest/agent-kit";
-import { openai } from "inngest";
+// import { openai } from "inngest";
 
 interface AgentState {
   summary: string;
@@ -204,14 +205,14 @@ export const codeAgentFunction = inngest.createFunction(
       name: "fragment-title-generator",
       description: "Generates a title for the code fragment",
       system: FRAGMENT_TITLE_PROMPT,
-      model: gemini({ model: "gemini-2.0-flash" }),
+      model: openai({ model: "gpt-4o-mini" }),
     });
 
     const responseGenerator = createAgent({
       name: "response-generator",
       description: "Generates a response based on the code fragment",
       system: RESPONSE_PROMPT,
-      model: gemini({ model: "gemini-2.0-flash" }),
+      model: openai({ model: "gpt-4o-mini" }),
     });
 
     const { output: fragmentTitleOutput } = await fragmentTitleGenerator.run(
