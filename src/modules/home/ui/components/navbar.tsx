@@ -1,9 +1,9 @@
-'use client';
+"use client";
 import React from "react";
 
 import Link from "next/link";
 import Image from "next/image";
-import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
+import { Show, SignInButton, SignUpButton } from "@clerk/nextjs";
 
 import { cn } from "@/lib/utils";
 import { useScroll } from "@/hooks/use-scroll";
@@ -16,7 +16,7 @@ const Navbar = () => {
     <nav
       className={cn(
         "p-4 bg-transparent fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent",
-        isScrolled && "bg-background border-b"
+        isScrolled && "bg-background border-b",
       )}
     >
       <div className="max-w-5xl mx-auto flex justify-between items-center">
@@ -24,7 +24,7 @@ const Navbar = () => {
           <Image src="/logo.svg" alt="Vibe" width={24} height={24} />
           <span className="font-semibold text-lg">Vibe</span>
         </Link>
-        <SignedOut>
+        <Show when="signed-out">
           <div className="flex gap-2">
             <SignUpButton>
               <Button variant="outline" size="sm">
@@ -35,10 +35,10 @@ const Navbar = () => {
               <Button size="sm">Sign In</Button>
             </SignInButton>
           </div>
-        </SignedOut>
-        <SignedIn>
+        </Show>
+        <Show when="signed-in">
           <UserControl showName={true} />
-        </SignedIn>
+        </Show>
       </div>
     </nav>
   );
