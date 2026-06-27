@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
+
 import Image from "next/image";
 
-import { dark } from "@clerk/themes";
+import { dark } from "@clerk/ui/themes";  
 import { PricingTable } from "@clerk/nextjs";
 import UseCurrentTheme from "@/hooks/use-current-theme";
 
@@ -26,7 +26,7 @@ const Page = () => {
         </p>
         <PricingTable
           appearance={{
-            baseTheme: currentTheme === "dark" ? dark : undefined,
+            theme: currentTheme === "dark" ? dark : undefined,  // changed baseTheme → theme
           }}
         />
       </section>

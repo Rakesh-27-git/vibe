@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { dark } from "@clerk/themes";
+import { dark } from "@clerk/ui/themes";
 import { UserButton } from "@clerk/nextjs";
 import UseCurrentTheme from "@/hooks/use-current-theme";
 
@@ -21,7 +21,7 @@ const UserControl = ({ showName }: Props) => {
           userButtonAvatarBox: "rounded-full! size-8",
           userButtonTrigger: "rounded-full! ",
         },
-        baseTheme: currentTheme === "dark" ? dark : undefined,
+        theme: currentTheme === "dark" ? dark : undefined,
       }}
     />
   );

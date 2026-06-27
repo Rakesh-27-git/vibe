@@ -1,6 +1,6 @@
 'use client';
 
-import { dark } from "@clerk/themes";
+import { dark } from "@clerk/ui/themes";
 import { SignIn } from "@clerk/nextjs";
 import UseCurrentTheme from "@/hooks/use-current-theme";
 
@@ -12,7 +12,7 @@ export default function Page() {
         <div className="flex flex-col items-center">
           <SignIn
             appearance={{
-              baseTheme: currentTheme === "dark" ? dark : undefined,
+              theme: currentTheme === "dark" ? dark : undefined,
               elements: {
                 cardBox: "border! shadow-lg rounded-lg!",
               },
