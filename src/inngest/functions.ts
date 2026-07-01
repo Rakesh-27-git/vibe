@@ -2,7 +2,7 @@ import { z } from "zod";
 import { Sandbox } from "@e2b/code-interpreter";
 import {
   openai,
-  gemini,
+  // gemini,
   createAgent,
   createTool,
   createNetwork,
@@ -212,8 +212,8 @@ export const codeAgentFunction = inngest.createFunction(
       name: "fragment-title-generator",
       description: "A fragment title generator",
       system: FRAGMENT_TITLE_PROMPT,
-      model: gemini({
-        model: "gemini-2.5-flash",
+      model: openai({
+        model: "gpt-4o",
       }),
     });
 
@@ -221,8 +221,8 @@ export const codeAgentFunction = inngest.createFunction(
       name: "response-generator",
       description: "A response generator",
       system: RESPONSE_PROMPT,
-      model: gemini({
-        model: "gemini-2.5-flash",
+      model: openai({
+        model: "gpt-4o",
       }),
     });
 
