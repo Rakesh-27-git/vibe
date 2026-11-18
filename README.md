@@ -4,6 +4,8 @@
 
 **Live demo:** https://vibe-phi-weld.vercel.app
 
+![Vibe landing page](docs/screenshot.png)
+
 
 ## What it does
 
@@ -16,16 +18,16 @@
 
 ## How it works
 
-```
-Browser ── tRPC ──▶ Next.js server ── Inngest event ──▶ code-agent function
-                                                          │
-                              ┌───────────────────────────┤
-                              ▼                           ▼
-                  Agent network (agent-kit)        E2B sandbox
-                  tools: terminal,                 runs the generated
-                  createOrUpdateFiles, readFiles   Next.js app
-                              │                           │
-                              └──────▶ title + summary agents ──▶ Postgres (Prisma)
+```mermaid
+flowchart LR
+    U[Browser] -->|tRPC mutation| A[Next.js server]
+    A -->|consume credit, save message| DB[(Postgres / Prisma)]
+    A -->|code-agent/run event| J[Inngest function]
+    J --> N[Agent network]
+    N -->|terminal, createOrUpdateFiles, readFiles| E[E2B sandbox]
+    E -->|sandbox URL| J
+    J -->|title + summary agents| DB
+    DB -->|fragment + preview URL| U
 ```
 
 1. The user sends a prompt. A tRPC procedure checks and consumes a usage credit, saves the message and sends an `code-agent/run` event to **Inngest**.
